@@ -48,6 +48,10 @@ Route::get('about', function () {
 Route::controller(UserController::class)->group(function () {
     Route::get('/', "home");
     Route::get('showProducts/{id}', "showProducts");
+    Route::post('addCart', "addCart");
+    Route::get('carts', "carts");
+    Route::post('editCart/{id}', "editCart");
+        Route::post('deleteCart/{id}', "deleteCart");
 });
 
 Route::controller(CategoryController::class)->group(function () {

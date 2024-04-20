@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('image', 255)->nullable();
             $table->decimal('price', 8, 2);
             $table->integer('quantity');
+            $table->integer('quantity_sold')->nullable();
+            $table->integer('quantity_reserved')->nullable();
             $table->foreignId('category_id')->constrained()->onUpdate("cascade")->onDelete("cascade");
             $table->timestamps();
         });

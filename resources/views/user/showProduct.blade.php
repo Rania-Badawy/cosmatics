@@ -1,6 +1,7 @@
 @extends('user.layout')
 @section('content')
         <div class="row d-flex" style="padding-top: 100px;">
+            @include('errors.success')
             @if(!$products->isEmpty())
             @foreach($products as $product)
             <div class="col-md-4 d-flex ftco-animate">
@@ -17,6 +18,14 @@
                         
                         <p>{{$product->desc}}</p>
                             <h3 class="heading mt-2">{{$product->price}}</h3>
+                            @auth
+                            <form action="{{url("addCart")}}" method="post">
+                                @csrf
+                                <input type="number" max="<?php echo $product['quantity']-$product['quantity_reserved'] ;?>" name="quantity" placeholder="Enter Quantity" ><br>
+                                <input type="hidden" name="product_id" value="<?php echo $product['id'] ;?>"><br>
+                                <input type="submit" name="submit"     value="Reserved">
+                                </form>
+                                @endauth
                     </div>
                 </div>
             </div>

@@ -16,7 +16,10 @@
                 <li class="nav-item"><a href="{{url('login')}}" class="nav-link">Login</a></li>
                 @endguest
                 @auth
+                @if(Auth::user()->role==1)
                 <li class="nav-item"><a href="{{url('admin_dashboard')}}" class="nav-link">dashboard</a></li>
+                @endif
+                <li class="nav-item"><a href="{{url('carts')}}" class="nav-link">carts</a></li>
                 @endauth
             </ul>
         </div>
