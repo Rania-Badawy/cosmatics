@@ -9,7 +9,8 @@ use App\Models\Opinion;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use App\Mail\MyMail;
+use Illuminate\Support\Facades\Mail;
 class UserController extends Controller
 {
     public function home()
@@ -78,4 +79,27 @@ class UserController extends Controller
         session()->flash("success", "data deleted successfully");
         return redirect(url("/carts"));
     }
+
+    public function sendEmail(Request $request)
+    {
+        $data = $request->validate([
+            "name"     => "required",
+            "email"    => "required|email",
+            "subject"  => "required",
+            "message"  => "required"
+        ]);
+        $recipient = $data['email'];
+        $name      = $data['name'];
+        $subject   = $data['subject'];
+        $message   = $data['message'];
+    
+        try {
+            Mail::to($recipient)->send(new MyMail($name, $subject, $message));
+            session()->flash("success", "Email sent successfully");
+            return  redirect($_SERVER['HTTP_REFERER']);
+        } catch (\Exception $e) {
+            session()->flash("errors", ['Failed to send email: ' . $e->getMessage()]);
+            return  redirect($_SERVER['HTTP_REFERER']);
+        }
+   }
 }
