@@ -55,7 +55,7 @@
         </div>
   </section>
     <div class="map">             
-    <iframe style="width:100%;height:300px" id="gmap_canvas" src="https://www.google.com/maps/embed?pb=!1m26!1m12!1m3!1d27901.752675559914!2d31.078291239571552!3d29.05488887791967!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m11!3e6!4m3!3m2!1d29.031627!2d31.1137432!4m5!1s0x145a27b7c733c069%3A0x3eac9a2550d5d71e!2zMzNIUSs3Vjcg2YXYr9ix2LPZhyDYudmE2Yog2KjZhiDYp9io2Yog2LfYp9mE2Kgg2KfZhNir2KfZhtmI2YrZhyDYqNmG2YrZhtiMINmC2LPZhSDYqNmG2Ykg2LPZiNmK2YHYjCwgQmVuaSBTdWVmLCBCZW5pIFN1ZWYgR292ZXJub3JhdGXigK0!3m2!1d29.0781539!2d31.089668399999997!5e0!3m2!1sen!2seg!4v1691407175716!5m2!1sen!2seg" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
+    <iframe style="width:100%;height:300px" id="gmap_canvas" src="{{$contact->map}}" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
 </div>
     <div class="container" style="text-align: center;">
         <div class="row d-flex">

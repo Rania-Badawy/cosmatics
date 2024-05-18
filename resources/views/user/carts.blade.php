@@ -60,6 +60,7 @@
                 <th>total Price</th>
                 <th>Remove</th>
                 <th>Edit</th>
+                <th>confirmOrder</th>
             </tr>
         </thead>
 
@@ -77,26 +78,48 @@
                 <td>{{$cart->quantity}}</td>
                 <td>{{$cart->product->price}}</td>
                 <td>{{$cart->quantity*$cart->product->price }}</td>
+                <?php if($cart->confirmed==0) { ?>
                 <td> 
                     <form action="{{url("deleteCart/$cart->id")}}" method="post">
                         @csrf
                         <button type="submit" class="btn btn-danger" onclick="confirm('Are you sure to delete')">Delete</button>
                     </form>
-                <td><button class="btn btn-success" onclick="openPopup()">EDIT</button></td>
-                <div id="myPopup" class="popup">
+                </td>
+                <?php }else{?><td>Confirmed</td><?php } ?>
+                <?php if($cart->confirmed==0) { ?>
+                <td><button class="btn btn-primary" onclick="openPopup('{{$cart->id}}')">EDIT</button></td>
+                <div id="myPopup-{{$cart->id}}" class="popup">
                 <div class="popup-content">
-                    <span class="close" onclick="closePopup()">&times;</span>
-                    <h3>Popup Form</h3>
+                    <span class="close" onclick="closePopup('{{$cart->id}}')">&times;</span>
+                    <h3>Edit Order</h3>
                     <form action="{{url("editCart/$cart->id")}}" method="post">
                         @csrf
-                    <img src="{{asset("storage/{$cart->product->image}")}}" alt="p1">
-                    <label for="quantity">Quantity:</label><br>
-                    <input type="number" max="{{($cart->product->quantity-($cart->product->quantity_reserved-$cart->quantity))}}" name="quantity" value="{{$cart->quantity}}"><br>
-                    <input type="submit" name="submit" value="Submit">
+                    <img src="{{asset("storage/{$cart->product->image}")}}" alt="p1" style="height: 200px;width: 200px;" >
+                    <br><br>
+                    <label for="quantity">Quantity:</label>
+                    <input type="number" max="{{($cart->product->quantity-($cart->product->quantity_reserved-$cart->quantity))}}" name="quantity" value="{{$cart->quantity}}" >
+                    <input type="submit" name="submit" class="btn btn-success" value="Edit" style="float: inline-end;">
                     </form>
                 </div>
                 </div>
-            
+                <?php }else{?><td>Confirmed</td><?php } ?>
+                <?php if($cart->confirmed==0) { ?>
+                <td><button class="btn btn-success" onclick="openPopupConfirm('{{$cart->id}}')">Confirm</button></td>
+                <div id="myPopupConfirm-{{$cart->id}}" class="popup">
+                <div class="popup-content">
+                    <span class="close" onclick="closePopupConfirm('{{$cart->id}}')">&times;</span>
+                    <h3>Confirm Order</h3>
+                    <form action="{{url("confirmOrder/$cart->id")}}" method="post">
+                        @csrf
+                    <img src="{{asset("storage/{$cart->product->image}")}}" alt="p1" style="height: 200px;width: 200px;">
+                    <br><br>
+                    <label for="quantity">Quantity:</label>
+                    <input type="number"   value="{{$cart->quantity}}" disabled>
+                    <input type="submit" name="submit" class="btn btn-success" value="Confirm" style="float: inline-end;">
+                    </form>
+                </div>
+                </div>
+                <?php }else{?><td>Confirmed</td><?php } ?>
             </tr>
             <?php }} ?>
         </tbody>
@@ -108,13 +131,25 @@
 </section>
 <script>
 // Function to open the popup
-function openPopup() {
-    document.getElementById("myPopup").style.display = "block";
+function openPopup(cartId) {
+    document.getElementById("myPopup-" + cartId).style.display = "block";
 }
 
 // Function to close the popup
-function closePopup() {
-    document.getElementById("myPopup").style.display = "none";
+function closePopup(cartId) {
+    document.getElementById("myPopup-" + cartId).style.display = "none";
 }
 </script>
+
+<script>
+    // Function to open the popup
+    function openPopupConfirm(cartId) {
+        document.getElementById("myPopupConfirm-" + cartId).style.display = "block";
+    }
+    
+    // Function to close the popup
+    function closePopupConfirm(cartId) {
+        document.getElementById("myPopupConfirm-" + cartId).style.display = "none";
+    }
+    </script>
 @endsection

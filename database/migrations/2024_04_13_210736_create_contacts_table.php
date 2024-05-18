@@ -23,6 +23,7 @@ return new class extends Migration
             $table->text('youtube')->nullable();
             $table->text('snapchat')->nullable();
             $table->text('google_plus')->nullable();
+            $table->text('map')->nullable();
             $table->timestamps();
         });
     }

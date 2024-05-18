@@ -51,6 +51,7 @@ Route::controller(UserController::class)->group(function () {
     Route::post('addCart', "addCart");
     Route::get('carts', "carts");
     Route::post('editCart/{id}', "editCart");
+    Route::post('confirmOrder/{id}', "confirmOrder");
     Route::post('deleteCart/{id}', "deleteCart");
     Route::post('sendEmail', "sendEmail");
 });

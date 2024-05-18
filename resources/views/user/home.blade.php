@@ -1,7 +1,11 @@
 @extends('user.layout')
 @section('content')
 
-
+<style>
+    .blog-entry span.day {
+        font-size: 30px;
+    }
+</style>
 <section class="hero-wrap js-fullheight" style="background-image: url('user/images/hero.jpg');"
     data-stellar-background-ratio="0.5">
     <div class="overlay"></div>

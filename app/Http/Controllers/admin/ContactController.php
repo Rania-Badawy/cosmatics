@@ -29,6 +29,7 @@ class ContactController extends Controller
         $data['youtube']     = $request->youtube;
         $data['snapchat']    = $request->snapchat;
         $data['google_plus'] = $request->google_plus;
+        $data['map']         = $request->map;
         $contact = Contact::first();
 
         $contact->update($data);

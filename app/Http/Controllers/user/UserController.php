@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers\user;
 
-use App\Http\Controllers\Controller;
+use App\Mail\MyMail;
 use App\Models\Cart;
-use App\Models\Category;
+use App\Models\Email;
 use App\Models\Opinion;
 use App\Models\Product;
+use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use App\Mail\MyMail;
 use Illuminate\Support\Facades\Mail;
+
 class UserController extends Controller
 {
     public function home()
@@ -79,7 +81,21 @@ class UserController extends Controller
         session()->flash("success", "data deleted successfully");
         return redirect(url("/carts"));
     }
-
+ ////////////////////////////////
+ public function confirmOrder(Request $request,$id)
+ {
+     $cart=Cart::find($id);
+     $product=Product::find($cart->product_id);
+     $product->update([
+         "quantity_sold"=>($product->quantity_sold+$cart->quantity)
+     ]);
+     $cart->update([
+         "confirmed"=>"1"
+     ]);
+     
+     session()->flash("success", "data updated successfully");
+     return redirect(url("/carts"));
+ }
     public function sendEmail(Request $request)
     {
         $data = $request->validate([
@@ -95,6 +111,12 @@ class UserController extends Controller
     
         try {
             Mail::to($recipient)->send(new MyMail($name, $subject, $message));
+            Email::create([
+                "name"    =>$name,
+                "email"   =>$recipient,
+                "subject" =>$subject,
+                "message" =>$message
+            ]);
             session()->flash("success", "Email sent successfully");
             return  redirect($_SERVER['HTTP_REFERER']);
         } catch (\Exception $e) {

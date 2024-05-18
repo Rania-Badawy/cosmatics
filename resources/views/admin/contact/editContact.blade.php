@@ -45,6 +45,10 @@
         <label for="google_plus" class="form-label">google_plus</label>
         <input type="text" name="google_plus" class="form-control" placeholder="Enter google_plus" value="{{$contact->google_plus}}"></input>
       </div>
+      <div class="mb-3">
+        <label for="map" class="form-label">map</label>
+        <input type="text" name="map" class="form-control" placeholder="Enter map link" value="{{$contact->map}}"></input>
+      </div>
         
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
