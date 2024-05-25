@@ -1,7 +1,7 @@
 @extends('admin.layout')
  @section('content')
  <div class="container" style="margin-top: 20px;">
-    <h3 style="text-align: center;color:red">Add Category</h3>
+    <h3 style="text-align: center;color:red">Add Product</h3>
     @include('errors.error')
     <form action="{{url("products/insert")}}" method="post" enctype="multipart/form-data">
       @csrf
