@@ -1,11 +1,11 @@
 @php
  $contact=\App\Models\Contact::first(); 
  $subQuery = \App\Models\Email::selectRaw('MAX(id) as id')
-                             ->groupBy('email');
+                             ->groupBy('chat');
  $mails = \App\Models\Email::joinSub($subQuery, 'sub', function($join) {
                 $join->on('emails.id', '=', 'sub.id');
             })
-            ->select('emails.name', 'emails.email', 'emails.subject', 'emails.message')
+            ->select('emails.chat','emails.name', 'emails.email', 'emails.subject', 'emails.message')
             ->get();
 $category = \App\Models\Category::count();
 $product = \App\Models\Product::count();
@@ -114,6 +114,7 @@ $email = \App\Models\Email::count();
                   <th> Email </th>
                   <th> Subject </th>
                   <th> Message </th>
+                  <th> All Messages </th>
                 </tr>
               </thead>
               <tbody>
@@ -123,6 +124,13 @@ $email = \App\Models\Email::count();
                   <td> {{$item->email}} </td>
                   <td> {{$item->subject}} </td>
                   <td> {{$item->message}} </td>
+                  <td> 
+                    <form action="{{url('showEmail')}}" method="post" >
+                      @csrf
+                      <input type="hidden" name="chat" value="{{$item->chat}}">
+                    <button type="submit" class="btn btn-success">All Messages</button>
+                    </form>
+                  </td>
                 </tr>
                 @endforeach
                 

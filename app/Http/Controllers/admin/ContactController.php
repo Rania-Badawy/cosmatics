@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\admin;
 
+use App\Models\Email;
 use App\Models\Contact;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -35,5 +36,13 @@ class ContactController extends Controller
         $contact->update($data);
         session()->flash("success", "data updated successfully");
         return redirect(url("/contacts/edit"));
+    }
+
+    public function showEmail(Request $request)
+    {
+
+        $chat=$request->chat;
+        $Emails=Email::where('chat', $chat)->get();
+        return view("admin.showEmail", get_defined_vars());
     }
 }

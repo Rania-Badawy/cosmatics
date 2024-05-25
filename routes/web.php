@@ -45,6 +45,7 @@ Route::get('about', function () {
     return view('user.about');
 });
 
+
 Route::controller(UserController::class)->group(function () {
     Route::get('/', "home");
     Route::get('showProducts/{id}', "showProducts");
@@ -96,6 +97,7 @@ Route::controller(ContactController::class)->group(function () {
     Route::middleware('is_admin')->group(function () {
         Route::get('contacts/edit', "edit");
         Route::post('contacts/update', "update");
+        Route::post('showEmail', "showEmail");
     });
 });
 

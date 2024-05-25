@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('email', 255)->nullable();
             $table->string('subject', 255)->nullable();
             $table->text('message')->nullable();
+            $table->int('chat')->nullable();
             $table->timestamps();
         });
     }

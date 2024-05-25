@@ -104,24 +104,41 @@ class UserController extends Controller
             "subject"  => "required",
             "message"  => "required"
         ]);
-        $recipient = $data['email'];
-        $name      = $data['name'];
-        $subject   = $data['subject'];
-        $message   = $data['message'];
-    
+        $recipient   = $data['email'];
+        $name        = $data['name'];
+        $subject     = $data['subject'];
+        $message     = $data['message'];
+        $emailRecord = Email::where('email', $recipient)->first();
+        $check_chat  = optional($emailRecord)->chat;
+        if($request->chat){
+        $chat      =$request->chat;
+        }elseif($check_chat){
+            $chat      =$check_chat;
+        }
+        else{
+
+            $chat_num = Email::selectRaw('MAX(chat) as max_chat')->first();
+            $chat     = $chat_num->max_chat + 1;
+        }
         try {
             Mail::to($recipient)->send(new MyMail($name, $subject, $message));
             Email::create([
                 "name"    =>$name,
                 "email"   =>$recipient,
                 "subject" =>$subject,
-                "message" =>$message
+                "message" =>$message,
+                "chat"    =>$chat
             ]);
             session()->flash("success", "Email sent successfully");
-            return  redirect($_SERVER['HTTP_REFERER']);
+            
         } catch (\Exception $e) {
             session()->flash("errors", ['Failed to send email: ' . $e->getMessage()]);
-            return  redirect($_SERVER['HTTP_REFERER']);
+          
         }
+        session()->flash('formData', $data);
+        return redirect()->back();
+
+        // return  redirect($_SERVER['HTTP_REFERER']);
+
    }
 }
