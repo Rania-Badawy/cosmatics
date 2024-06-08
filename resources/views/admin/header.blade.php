@@ -23,5 +23,34 @@
   <!-- End layout styles -->
   <link rel="shortcut icon" href="{{asset('admin/assets')}}/images/favicon.png" />
 </head>
+<style>
+  h2#swal2-title{
+    color: green;
+}
+div#swal2-content{
+    color: black;
+}
+</style>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
+  <script>
+
+    // Enable pusher logging - don't include this in production
+    Pusher.logToConsole = true;
+
+    var pusher = new Pusher('31be78f2eafd6d89e0dd', {
+      cluster: 'mt1'
+    });
+
+    var channel = pusher.subscribe('my-channel');
+    channel.bind('my-event', function(data) {
+      Swal.fire({
+                title: 'success',
+                text: JSON.stringify(data.message),
+                icon: 'success',
+                confirmButtonText: 'OK'
+            });
+    });
+  </script>
 <body>

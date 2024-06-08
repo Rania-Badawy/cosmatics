@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\user;
-
+use App\Events\MessageSent;
 use App\Mail\MyMail;
 use App\Models\Cart;
 use App\Models\Email;
@@ -129,6 +129,7 @@ class UserController extends Controller
                 "message" =>$message,
                 "chat"    =>$chat
             ]);
+            broadcast(new MessageSent($message))->toOthers();
             session()->flash("success", "Email sent successfully");
             
         } catch (\Exception $e) {
